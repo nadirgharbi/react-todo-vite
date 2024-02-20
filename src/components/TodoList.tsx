@@ -6,7 +6,7 @@ interface TodosProps {
   todos: Array<any>;
 }
 
-export const TodoList: React.FC<TodosProps> = ({ todos }) => {
+export const TodoList: React.FC<TodosProps> = ({ todos }) => { 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
 
