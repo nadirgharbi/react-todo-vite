@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import axios, { AxiosResponse } from "axios";
-import { Spinner, Flowbite, DarkThemeToggle } from "flowbite-react";
+import { Spinner, Flowbite, DarkThemeToggle, Dropdown, Button } from "flowbite-react";
 import { TodoList } from "./components/TodoList";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 
 /**
  *
@@ -11,25 +11,49 @@ import { TodoList } from "./components/TodoList";
  */
 
 function App() {
-	const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([]);
 
-	useEffect(() => {
-		axios.get("http://localhost:3000/todos").then((result: AxiosResponse) => {
-			setTodos(result.data);
-		});
-	}, []);
+  const handleAdd = () => {
+    // Gérer l'édition ici
+  };
+  
+   useEffect(() => {
+    axios.get("http://localhost:3000/todos").then((result: AxiosResponse) => {
+      setTodos(result.data);
+    });
+  }, []);
 
-	return (
+  return (
+    
+      <div className="p-8 ">
 		<Flowbite>
-			<div className="p-5 bg-white dark:bg-zinc-900 h-screen">
-				<DarkThemeToggle />
-				<div className="text-center text-zinc-800 dark:text-white font-semibold">
-					<h1 className="text-3xl font-bold">My Todo list</h1>
-					<div className="py-5 text-center">{todos ? <TodoList todos={todos} /> : <Spinner />}</div>
-				</div>
-			</div>
+		<div className="absolute top-10">
+
+        <DarkThemeToggle />
+		</div>
+        <div className="text-center text-zinc-800 dark:text-white font-semibold">
+          <div>
+            <h1 className="text-3xl font-bold">My Todo list</h1>
+          </div>
+          <div className="flex justify-end">
+            <Dropdown size="sm" label="Action" dismissOnClick={false} color="gray">
+              <Dropdown.Item>
+                <span className="ps-3">Ajouter une tâche</span>
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={handleAdd} // Assurez-vous que todo.id est de type number
+              >
+                <span className="ps-3 text-red-500 dark:text-red-400">Supprimer toutes les tâches</span>
+              </Dropdown.Item>
+            </Dropdown>
+          </div>
+
+          <div className="py-5 text-center">{todos ? <TodoList todos={todos} /> : <Spinner />}</div>
+        </div>
 		</Flowbite>
-	);
+      </div>
+    
+  );
 }
 
 export default App;
