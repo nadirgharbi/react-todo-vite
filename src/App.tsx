@@ -48,7 +48,7 @@ function App() {
             </Dropdown>
           </div>
 
-          <div className="py-5 text-center">{todos ? <TodoList todos={todos} /> : <Spinner />}</div>
+          <div className="py-5 flex flex-col items-center">{todos ? <TodoList todos={todos} /> : <Spinner />}</div>
         </div>
 		</Flowbite>
       </div>

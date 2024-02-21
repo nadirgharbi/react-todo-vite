@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Pagination, Table, Dropdown } from "flowbite-react";
+import { Pagination, Table, Dropdown, Button } from "flowbite-react";
 import axios from "axios";
 import { FaDeleteLeft, FaPen } from "react-icons/fa6";
+import { BiPlus } from "react-icons/bi";
+import notFound from '../assets/not-found.svg'
 
 interface TodosProps {
   todos: Array<{
@@ -88,7 +90,12 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
         </>
       ) : (
         <>
-          <p className="text-center p-1">Aucun élement trouvés</p>
+          <p className="text-center">Aucun élement trouvés...</p>
+          <img src={notFound} width={420} className="py-5" />
+          <Button color="gray">
+            <BiPlus />
+            Ajouter une nouvelle tâche
+          </Button>
         </>
       )}
     </>
