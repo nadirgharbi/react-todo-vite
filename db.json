@@ -8,12 +8,6 @@
     },
     {
       "userId": 2,
-      "id": "23",
-      "title": "et itaque necessitatibus maxime molestiae qui quas velit",
-      "completed": false
-    },
-    {
-      "userId": 2,
       "id": "25",
       "title": "voluptas quo tenetur perspiciatis explicabo natus",
       "completed": true
@@ -23,12 +17,6 @@
       "id": "30",
       "title": "nemo perspiciatis repellat ut dolor libero commodi blanditiis omnis",
       "completed": true
-    },
-    {
-      "userId": 2,
-      "id": "31",
-      "title": "repudiandae totam in est sint facere fuga",
-      "completed": false
     },
     {
       "userId": 2,
