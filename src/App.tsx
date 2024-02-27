@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { Spinner, Flowbite, DarkThemeToggle, Dropdown, Button, Footer } from "flowbite-react";
+import { Spinner, Flowbite, DarkThemeToggle, Badge } from "flowbite-react";
 import { TodoList } from "./components/TodoList";
 import { FaDiscord, FaGithub, FaLinkedin, FaXTwitter, FaReddit } from "react-icons/fa6";
 
@@ -23,9 +23,25 @@ function App() {
 					</div>
 					<div className="text-center text-zinc-800 dark:text-white font-semibold">
 						<div>
-							<h1 className="text-3xl font-bold">My Todo list</h1>
+							<h1 className="text-3xl font-bold">TODO LIST</h1>
+							<p className="font-normal">Bienvenue sur votre todo list</p>
 						</div>
-						<div className="py-5 flex flex-col items-center">{todos ? <TodoList todos={todos} /> : <Spinner />}</div>
+						<div className="py-5 flex flex-col items-center">
+							{todos.length > 0 ? (
+								<TodoList todos={todos} />
+							) : (
+								<div className="space-y-3">
+									<Spinner />
+									<p className="font-normal flex gap-1">
+										Si le chargement est trop long, veuillez vérifier que le serveur
+										<Badge color={"gray"} size={"sm"}>
+											json
+										</Badge>
+										est correctement lancée
+									</p>
+								</div>
+							)}
+						</div>
 					</div>
 				</Flowbite>
 			</div>
