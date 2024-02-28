@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { Spinner, Flowbite, DarkThemeToggle, Badge } from "flowbite-react";
+import { Spinner, Flowbite, DarkThemeToggle, Badge, Modal, Label, TextInput, Select, Button } from "flowbite-react";
 import { TodoList } from "./components/TodoList";
 import { FaDiscord, FaGithub, FaLinkedin, FaXTwitter, FaReddit } from "react-icons/fa6";
+import { BiPlus } from "react-icons/bi";
+
+interface Tasks {
+	userId: number;
+	id: number;
+	title: string;
+	completed: string;
+}
 
 function App() {
 	const currentYear = new Date();
 	const [todos, setTodos] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
+	// Tasks data form to post in api
+	const [task, setTask] = useState<Tasks>({
+		userId: 2,
+		id: 1,
+		title: "",
+		completed: "false",
+	});
 
 	useEffect(() => {
 		axios.get("http://localhost:3000/todos").then((result: AxiosResponse) => {
@@ -14,8 +30,50 @@ function App() {
 		});
 	}, []);
 
+	const handleAdd = () => {
+		try {
+			axios.post("http://localhost:3000/todos", task);
+			window.location.reload();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<>
+			{/* Modal to add tasks */}
+			<Modal show={openModal} size="lg" popup onClose={() => setOpenModal(false)}>
+				<Modal.Header />
+				<Modal.Body>
+					<div className="space-y-6">
+						<h3 className="text-xl font-medium text-gray-900 dark:text-white">Ajouter une nouvelle tâche</h3>
+						<div>
+							<div className="mb-2 block">
+								<Label value="Nom" />
+							</div>
+							<TextInput id="text" placeholder="Acheter du pain..." required onChange={(e) => setTask((prevTask) => ({ ...prevTask, title: e.target.value }))} />
+						</div>
+						<div>
+							<div className="mb-2 block">
+								<Label value="Etat de la tâche" />
+							</div>
+							<Select id="countries" required onChange={(e) => setTask((prevTask) => ({ ...prevTask, completed: e.target.value }))}>
+								<option value={"false"}>En cours</option>
+								<option value={"true"}>Terminée</option>
+							</Select>
+						</div>
+
+						<div className="w-full flex gap-2">
+							<Button color="blue" className="w-full" onClick={handleAdd}>
+								Ajouter
+							</Button>
+							<Button color="light" className="w-full" onClick={() => setOpenModal(false)}>
+								Annuler
+							</Button>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
 			<div className="p-8 ">
 				<Flowbite>
 					<div className="absolute top-10">
@@ -29,6 +87,11 @@ function App() {
 						<div className="py-5 flex flex-col items-center">
 							{todos.length > 0 ? (
 								<TodoList todos={todos} />
+							) : todos.length == 0 ? (
+								<Button color="gray" onClick={() => setOpenModal(true)}>
+									<BiPlus className="me-1" />
+									Ajouter une tâche
+								</Button>
 							) : (
 								<div className="space-y-3">
 									<Spinner />
