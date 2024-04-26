@@ -77,8 +77,7 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 
 	const handleAllDelete = () => {
 		try {
-			todos.map((todo) => axios.delete(`http://localhost:3000/todos/${todo.id}`));
-			// window.location.reload();
+			todos.map((todo) => axios.delete(`http://localhost:3000/todos/1`));
 		} catch (error) {
 			console.log(error);
 		}
@@ -93,7 +92,7 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 						<Modal.Header />
 						<Modal.Body className="flex flex-col justify-center items-center gap-5">
 							<h3 className="text-xl font-medium text-gray-900 dark:text-white">Supprimer toutes les tâche ?</h3>
-							<p className="text-white/80 text-center">En cliquant sur Oui, vous perdrez toutes vos tacvhes en cours et le tableau sera vide</p>
+							<p className="text-white/80 text-center">En cliquant sur Oui, vous perdrez toutes vos taches en cours et le tableau sera vide</p>
 							<div className="flex gap-3">
 								<Button color="failure" onClick={handleAllDelete}>
 									Oui
