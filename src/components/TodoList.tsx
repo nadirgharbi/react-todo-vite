@@ -53,9 +53,9 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 	const endIndex = startIndex + itemsPerPage;
 	const visibleTodos = todos.slice(startIndex, endIndex);
 
-	const handleEdit = () => {
-		// Gérer l'édition ici
-	};
+	// const handleEdit = () => {
+	// Gérer l'édition ici
+	// };
 
 	const handleAdd = () => {
 		try {
@@ -77,7 +77,7 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 
 	const handleAllDelete = () => {
 		try {
-			todos.map((todo) => axios.delete(`http://localhost:3000/todos/1`));
+			todos.map((todo) => axios.delete(`http://localhost:3000/todos/${todo.id}`));
 		} catch (error) {
 			console.log(error);
 		}
