@@ -68,8 +68,8 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 
 	const handleDelete = (id: number) => {
 		try {
-			axios.delete(`http://localhost:3000/todos/${id}`);
-			window.location.reload();
+			axios.delete(`http://localhost:3000/todos/${id}`); // /posts?views_gt=9000
+			console.log(id);
 		} catch (error) {
 			console.log(error);
 		}
@@ -77,7 +77,7 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 
 	const handleAllDelete = () => {
 		try {
-			todos.map((todo) => axios.delete(`http://localhost:3000/todos/${todo.id}`));
+			todos.map((todo) => axios.delete(`http://localhost:3000/todos?=${todo.id}`));
 		} catch (error) {
 			console.log(error);
 		}
@@ -209,7 +209,7 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 												</Dropdown.Item>
 												<Dropdown.Item
 													className="text-red-500 dark:text-red-400"
-													onClick={() => handleDelete(todo.id)} // Assurez-vous que todo.id est de type number
+													onClick={handleDelete(todo.id)} // Assurez-vous que todo.id est de type number
 												>
 													<FaDeleteLeft />
 													<span className="ps-3">Supprimer</span>
