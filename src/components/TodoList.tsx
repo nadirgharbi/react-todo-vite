@@ -209,7 +209,7 @@ export const TodoList: React.FC<TodosProps> = ({ todos }) => {
 												</Dropdown.Item>
 												<Dropdown.Item
 													className="text-red-500 dark:text-red-400"
-													onClick={handleDelete(todo.id)} // Assurez-vous que todo.id est de type number
+													onClick={() => handleDelete(todo.id)} // Assurez-vous que todo.id est de type number
 												>
 													<FaDeleteLeft />
 													<span className="ps-3">Supprimer</span>
