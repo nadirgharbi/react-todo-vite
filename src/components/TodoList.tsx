@@ -1,242 +1,216 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Pagination, Table, Dropdown, Button, TextInput, Badge, Label, Modal, Select } from "flowbite-react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { FaDeleteLeft, FaPen } from "react-icons/fa6";
 import { BiPlus, BiSearch, BiSortAZ, BiTrash } from "react-icons/bi";
 import { HiCheck, HiClock } from "react-icons/hi";
 import { FaTasks } from "react-icons/fa";
-import notFound from "../assets/not-found.svg";
+// import notFound from "../assets/not-found.svg";
 
-interface TodosProps {
-	todos: Array<{
-		userId: number;
-		id: number; // Change this to string
-		title: string;
-		completed: boolean;
-	}>;
-}
+export const TodoList: React.FC<TodosProps> = () => {
+  const currentYear = new Date();
+  const [todos, setTodos] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
-interface Tasks {
-	userId: number;
-	id: number;
-	title: string;
-	completed: string;
-}
+  // Tasks data form to post in api
+  const [task, setTask] = useState<Tasks>({
+    id: 1,
+    title: "",
+    completed: "false",
+  });
 
-export const TodoList: React.FC<TodosProps> = ({ todos }) => {
-	// Open et Close Modal states
-	const [openModal, setOpenModal] = useState(false);
-	const [openModalDel, setOpenModalDel] = useState(false);
+  // Open et Close Modal states
+  const [openModalDel, setOpenModalDel] = useState(false);
 
-	// Convertir les clés en tableau (tds => todos)
-	let tds: string[] = Object.keys(todos);
+  // For Pagination
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const onPageChange = (page: number) => setCurrentPage(page);
 
-	// Afficher le dernier élément
-	let last: string = tds[tds.length - 1];
-	let lastID: number = Number(todos[Number(last)].id);
+  // Displaying in table
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleTodos = todos.slice(startIndex, endIndex);
 
-	// Tasks data form to post in api
-	const [task, setTask] = useState<Tasks>({
-		userId: 2,
-		id: lastID + 1,
-		title: "",
-		completed: "false",
-	});
+  const handleAdd = () => {
+    return;
+  };
 
-	// For Pagination
-	const itemsPerPage = 10;
-	const [currentPage, setCurrentPage] = useState<number>(1);
-	const onPageChange = (page: number) => setCurrentPage(page);
+  const handleEdit = () => {
+    return;
+  };
 
-	// Displaying in table
-	const startIndex = (currentPage - 1) * itemsPerPage;
-	const endIndex = startIndex + itemsPerPage;
-	const visibleTodos = todos.slice(startIndex, endIndex);
+  const handleDelete = (id: number) => {
+    return;
+  };
 
-	// const handleEdit = () => {
-	// Gérer l'édition ici
-	// };
+  const handleAllDelete = () => {
+    return;
+  };
 
-	const handleAdd = () => {
-		try {
-			axios.post("http://localhost:3000/todos", task);
-			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  ///// LOGS ////
+  console.log("TASKS : ", task);
 
-	const handleDelete = (id: number) => {
-		try {
-			axios.delete(`http://localhost:3000/todos/${id}`); // /posts?views_gt=9000
-			console.log(id);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  useEffect(() => {
+    axios.get("https://apiv1.nadir-gharbi.fr/api/todos").then((result: AxiosResponse) => {
+      setTodos(result.data);
+    });
+  }, []);
 
-	const handleAllDelete = () => {
-		try {
-			todos.map((todo) => axios.delete(`http://localhost:3000/todos?=${todo.id}`));
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  return (
+    <>
+      {visibleTodos.length > 0 ? (
+        <>
+          {/* Modal to delete all tasks */}
+          <Modal show={openModalDel} size="lg" popup onClose={() => setOpenModalDel(false)}>
+            <Modal.Header />
+            <Modal.Body className="flex flex-col justify-center items-center gap-5">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">Supprimer toutes les tâche ?</h3>
+              <p className="text-white/80 text-center">En cliquant sur Oui, vous perdrez toutes vos taches en cours et le tableau sera vide</p>
+              <div className="flex gap-3">
+                <Button color="failure" onClick={handleAllDelete}>
+                  Oui
+                </Button>
+                <Button color="light" onClick={() => setOpenModalDel(false)}>
+                  Non
+                </Button>
+              </div>
+            </Modal.Body>
+          </Modal>
 
-	return (
-		<>
-			{visibleTodos.length > 0 ? (
-				<>
-					{/* Modal to delete all tasks */}
-					<Modal show={openModalDel} size="lg" popup onClose={() => setOpenModalDel(false)}>
-						<Modal.Header />
-						<Modal.Body className="flex flex-col justify-center items-center gap-5">
-							<h3 className="text-xl font-medium text-gray-900 dark:text-white">Supprimer toutes les tâche ?</h3>
-							<p className="text-white/80 text-center">En cliquant sur Oui, vous perdrez toutes vos taches en cours et le tableau sera vide</p>
-							<div className="flex gap-3">
-								<Button color="failure" onClick={handleAllDelete}>
-									Oui
-								</Button>
-								<Button color="light" onClick={() => setOpenModalDel(false)}>
-									Non
-								</Button>
-							</div>
-						</Modal.Body>
-					</Modal>
+          {/* Modal to add tasks */}
+          <Modal show={openModal} size="lg" popup onClose={() => setOpenModal(false)}>
+            <Modal.Header />
+            <Modal.Body>
+              <div className="space-y-6">
+                <h3 className="text-xl font-medium text-gray-900 dark:text-white">Ajouter une nouvelle tâche</h3>
+                <div>
+                  <div className="mb-2 block">
+                    <Label value="Nom" />
+                  </div>
+                  <TextInput id="text" placeholder="Acheter du pain..." required onChange={(e) => setTask((prevTask) => ({ ...prevTask, title: e.target.value }))} />
+                </div>
+                <div>
+                  <div className="mb-2 block">
+                    <Label value="Etat de la tâche" />
+                  </div>
+                  <Select id="countries" required onChange={(e) => setTask((prevTask) => ({ ...prevTask, completed: e.target.value }))}>
+                    <option value={"false"}>En cours</option>
+                    <option value={"true"}>Terminée</option>
+                  </Select>
+                </div>
 
-					{/* Modal to add tasks */}
-					<Modal show={openModal} size="lg" popup onClose={() => setOpenModal(false)}>
-						<Modal.Header />
-						<Modal.Body>
-							<div className="space-y-6">
-								<h3 className="text-xl font-medium text-gray-900 dark:text-white">Ajouter une nouvelle tâche</h3>
-								<div>
-									<div className="mb-2 block">
-										<Label value="Nom" />
-									</div>
-									<TextInput id="text" placeholder="Acheter du pain..." required onChange={(e) => setTask((prevTask) => ({ ...prevTask, title: e.target.value }))} />
-								</div>
-								<div>
-									<div className="mb-2 block">
-										<Label value="Etat de la tâche" />
-									</div>
-									<Select id="countries" required onChange={(e) => setTask((prevTask) => ({ ...prevTask, completed: e.target.value }))}>
-										<option value={"false"}>En cours</option>
-										<option value={"true"}>Terminée</option>
-									</Select>
-								</div>
+                <div className="w-full flex gap-2">
+                  <Button color="blue" className="w-full" onClick={handleAdd}>
+                    Ajouter
+                  </Button>
+                  <Button color="light" className="w-full" onClick={() => setOpenModal(false)}>
+                    Annuler
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+          {/* Header of todolist */}
+          <div className="flex justify-between w-1/2">
+            <div className="flex gap-3">
+              {/* Add New Task */}
+              <Button color="gray" onClick={() => setOpenModal(true)}>
+                <BiPlus className="me-1" />
+                Ajouter une tâche
+              </Button>
+              {/* Delete all Tasks */}
+              <Button color="failure" onClick={() => setOpenModalDel(true)}>
+                <BiTrash className="me-1" />
+                Supprimer toute les tâches
+              </Button>
+            </div>
+            <div className="flex gap-1">
+              <TextInput type="text" icon={BiSearch} placeholder="Rechercher" />
+              {/* Sort */}
+              <Dropdown size="sm" label="Trier" dismissOnClick={false} color="gray">
+                <Dropdown.Item>
+                  <BiSortAZ />
+                  <span className="ps-3">Par alphabétique</span>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <FaTasks />
+                  <span className="ps-3">Par état</span>
+                </Dropdown.Item>
+              </Dropdown>
+              {/* Filter  */}
+              <Dropdown size="sm" label="Filtrer" dismissOnClick={false} color="gray">
+                <Dropdown.Item>
+                  <HiCheck />
+                  <span className="ps-3">Terminée</span>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <HiClock />
+                  <span className="ps-3">En cours</span>
+                </Dropdown.Item>
+              </Dropdown>
+            </div>
+          </div>
 
-								<div className="w-full flex gap-2">
-									<Button color="blue" className="w-full" onClick={handleAdd}>
-										Ajouter
-									</Button>
-									<Button color="light" className="w-full" onClick={() => setOpenModal(false)}>
-										Annuler
-									</Button>
-								</div>
-							</div>
-						</Modal.Body>
-					</Modal>
-					{/* Header of todolist */}
-					<div className="flex justify-between w-1/2">
-						<div className="flex gap-3">
-							{/* Add New Task */}
-							<Button color="gray" onClick={() => setOpenModal(true)}>
-								<BiPlus className="me-1" />
-								Ajouter une tâche
-							</Button>
-							{/* Delete all Tasks */}
-							<Button color="failure" onClick={() => setOpenModalDel(true)}>
-								<BiTrash className="me-1" />
-								Supprimer toute les tâches
-							</Button>
-						</div>
-						<div className="flex gap-1">
-							<TextInput type="text" icon={BiSearch} placeholder="Rechercher" />
-							{/* Sort */}
-							<Dropdown size="sm" label="Trier" dismissOnClick={false} color="gray">
-								<Dropdown.Item>
-									<BiSortAZ />
-									<span className="ps-3">Par alphabétique</span>
-								</Dropdown.Item>
-								<Dropdown.Item>
-									<FaTasks />
-									<span className="ps-3">Par état</span>
-								</Dropdown.Item>
-							</Dropdown>
-							{/* Filter  */}
-							<Dropdown size="sm" label="Filtrer" dismissOnClick={false} color="gray">
-								<Dropdown.Item>
-									<HiCheck />
-									<span className="ps-3">Terminée</span>
-								</Dropdown.Item>
-								<Dropdown.Item>
-									<HiClock />
-									<span className="ps-3">En cours</span>
-								</Dropdown.Item>
-							</Dropdown>
-						</div>
-					</div>
+          {/* Todolist */}
+          <div className="pt-5 w-1/2">
+            <Table striped hoverable>
+              <Table.Head>
+                <Table.HeadCell> </Table.HeadCell>
+                <Table.HeadCell>Nom</Table.HeadCell>
+                <Table.HeadCell>Etat</Table.HeadCell>
+                <Table.HeadCell>
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {visibleTodos.map((todo, key) => (
+                  <Table.Row key={key} className="border-b border-zinc-300 dark:border-white/30 even:bg-zinc-100">
+                    <Table.Cell scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                      {/* {todo.id} */}
+                    </Table.Cell>
+                    <Table.Cell className="px-6 py-4 w-1/2">{/* {todo.title} */}</Table.Cell>
+                    <Table.Cell className="px-6 py-4">
+                      {/* {todo.completed.toString() == "true" ? <Badge color="success" icon={HiCheck} className="w-6 h-6" /> : <Badge color="warning" icon={HiClock} className="w-6 h-6" />} */}
 
-					{/* Todolist */}
-					<div className="pt-5 w-1/2">
-						<Table striped hoverable>
-							<Table.Head>
-								<Table.HeadCell> </Table.HeadCell>
-								<Table.HeadCell>Nom</Table.HeadCell>
-								<Table.HeadCell>Etat</Table.HeadCell>
-								<Table.HeadCell>
-									<span className="sr-only">Edit</span>
-								</Table.HeadCell>
-							</Table.Head>
-							<Table.Body className="divide-y">
-								{visibleTodos.map((todo) => (
-									<Table.Row key={todo.id} className="border-b border-zinc-300 dark:border-white/30 even:bg-zinc-100">
-										<Table.Cell scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-											{todo.id}
-										</Table.Cell>
-										<Table.Cell className="px-6 py-4 w-1/2">{todo.title}</Table.Cell>
-										<Table.Cell className="px-6 py-4">
-											{todo.completed.toString() == "true" ? <Badge color="success" icon={HiCheck} className="w-6 h-6" /> : <Badge color="warning" icon={HiClock} className="w-6 h-6" />}
-
-											{/* <span>{todo.completed ? "Terminée" : "En cours"}</span> */}
-										</Table.Cell>
-										<Table.Cell className="px-6 py-4">
-											<Dropdown size="sm" label="Actions" dismissOnClick={false} color="gray">
-												<Dropdown.Item>
-													<FaPen />
-													<span className="ps-3">Modifier</span>
-												</Dropdown.Item>
-												<Dropdown.Item
-													className="text-red-500 dark:text-red-400"
-													onClick={() => handleDelete(todo.id)} // Assurez-vous que todo.id est de type number
-												>
-													<FaDeleteLeft />
-													<span className="ps-3">Supprimer</span>
-												</Dropdown.Item>
-											</Dropdown>
-										</Table.Cell>
-									</Table.Row>
-								))}
-							</Table.Body>
-						</Table>
-						<div className={`text-center my-6 `}>
-							<Pagination currentPage={currentPage} totalPages={Math.ceil(todos.length / itemsPerPage)} onPageChange={onPageChange} showIcons />
-						</div>
-					</div>
-				</>
-			) : (
-				visibleTodos.length == 0 ?? (
-					<>
-						<p className="text-center">Aucun élement trouvés...</p>
-						<img src={notFound} width={420} className="py-5" />
-						<Button color="gray">
-							<BiPlus />
-							Ajouter une nouvelle tâche
-						</Button>
-					</>
-				)
-			)}
-		</>
-	);
+                      {/* <span>{todo.completed ? "Terminée" : "En cours"}</span> */}
+                    </Table.Cell>
+                    <Table.Cell className="px-6 py-4">
+                      <Dropdown size="sm" label="Actions" dismissOnClick={false} color="gray">
+                        <Dropdown.Item>
+                          <FaPen />
+                          <span className="ps-3">Modifier</span>
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          className="text-red-500 dark:text-red-400"
+                          onClick={() => {}} // Assurez-vous que todo.id est de type number
+                        >
+                          <FaDeleteLeft />
+                          <span className="ps-3">Supprimer</span>
+                        </Dropdown.Item>
+                      </Dropdown>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+            <div className={`text-center my-6 `}>
+              <Pagination currentPage={currentPage} totalPages={Math.ceil(todos.length / itemsPerPage)} onPageChange={onPageChange} showIcons />
+            </div>
+          </div>
+        </>
+      ) : (
+        visibleTodos.length == 0 ?? (
+          <>
+            <p className="text-center">Aucun élement trouvés...</p>
+            {/* <img src={""} alt="no image" width={420} className="py-5" /> */}
+            <Button color="gray">
+              <BiPlus />
+              Ajouter une nouvelle tâche
+            </Button>
+          </>
+        )
+      )}
+    </>
+  );
 };
