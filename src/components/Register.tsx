@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 
 export const Register: React.FC = () => {
-    return (
-        <>
-        
-        </>
-    )
-}
+	return (
+        <div className="h-screen">
+            <p>register</p>
+        </div>
+    );
+};
