@@ -1,9 +1,5 @@
-interface Tasks {
-  id: number;
-  title: string;
-  completed: string;
-}
-
-interface TodosProps {
-  todos: Array<Tasks>;
+//USER
+interface User {
+	email: string;
+	password: string;
 }

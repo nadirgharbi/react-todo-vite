@@ -1,3 +1,9 @@
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@200,201,300,301,400,401,500,501,600,601,700,701&display=swap" rel="stylesheet');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  font-family: 'General Sans', sans-serif;
+}

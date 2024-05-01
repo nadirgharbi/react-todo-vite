@@ -9,6 +9,11 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    colors: {
+      darky: "#080808",
+      lighty: "#fafafa",
+      test: '#10df21'
+    },
     container: {
       center: true,
       padding: "2rem",
