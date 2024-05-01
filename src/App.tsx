@@ -5,7 +5,7 @@ import { Header } from "./components/Header";
 export const App = () => {
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-			<div>
+			<div className="">
 				<Header />
 				<Outlet />
 			</div>
