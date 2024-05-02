@@ -68,7 +68,6 @@ export const Dashboard: React.FC = () => {
 		setRealTimeUpdate((prev) => !prev);
 		setOpenDelete(false);
 		setSelectedTodos([]);
-
 	};
 
 	// gérer la sélection d'une tâche
@@ -81,6 +80,7 @@ export const Dashboard: React.FC = () => {
 		}
 	};
 
+	// checkbox qui coche toutes les autres checkbox
 	const handleMasterCheckbox = () => {
 		if (selectedTodos.length < todos.length) {
 			// Cocher toutes les tâches
@@ -191,7 +191,7 @@ export const Dashboard: React.FC = () => {
 								<Dialog open={openDeleteSelect}>
 									<DialogOverlay className="bg-black/70 transition-colors" />
 									<DialogTrigger>
-										<Button onClick={() => setOpenDeleteSelect(true)} disabled={selectedTodos.length == 0} className={`flex gap-1`} variant={"destructive"}>
+										<Button onClick={() => setOpenDeleteSelect(true)} disabled={selectedTodos.length === 0} className={`flex gap-1`} variant={"destructive"}>
 											<Trash2 className="w-4 h-4" /> Supprimer
 										</Button>
 									</DialogTrigger>
