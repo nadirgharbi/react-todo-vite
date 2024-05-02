@@ -1,3 +1,7 @@
+//GENERAL
+declare module 'sonner'
+declare module 'lucide-react'
+
 //USER
 interface UserLogin {
 	email: string;
@@ -22,6 +26,7 @@ interface Todos {
 	id?: any;
 	title: string;
 	completed: number;
+	userID: number
 }
 
 interface TodoUpdate {
