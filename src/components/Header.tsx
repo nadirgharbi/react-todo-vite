@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <div className="flex w-full fixed bg-lighty dark:bg-darky justify-between p-3 transition-all">
+      <div className="flex w-full fixed bg-lighty dark:bg-darky justify-between p-3 transition-colors">
         <Logo />
         {/* Dark / Light Mode */}
         <div className="flex gap-2 items-center">

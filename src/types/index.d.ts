@@ -1,5 +1,5 @@
 //GENERAL
-declare module 'sonner'
+// declare module 'sonner'
 declare module 'lucide-react'
 
 //USER
@@ -27,6 +27,7 @@ interface Todos {
 	title: string;
 	completed: number;
 	userID: number
+	selected?: boolean
 }
 
 interface TodoUpdate {
