@@ -7,11 +7,12 @@ import { Toaster, toast } from "sonner";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
 import { userRegister } from "../api/users";
-import { Eye } from "lucide-react";
+import {BsBullseye, BsEye, BsEyeSlash} from 'react-icons/bs'
 
 export const Register: React.FC = () => {
 	const [user, setUser] = useState<UserRegister>({ fullName: "", email: "", password: "" });
 	const [confirmPassword, setConfirmPassword] = useState<string>("");
+	const [showPassword, setShowPassword] = useState<boolean>(false)
 	const [isCorrect, setIsCorrect] = useState({
 		full_name: true,
 		email: true,
@@ -80,18 +81,18 @@ export const Register: React.FC = () => {
 						{/* Password */}
 						<div className="space-y-1">
 							<Label>Mot de passe</Label>
-							<div>
-								<Input className={inputStyle + !Boolean(user.password) && !isCorrect.password ? "border-red-500 dark:border-red-400" : ""} type="password" placeholder="**********" onChange={(e) => setUser((prev) => ({ ...prev, password: e.target.value }))} required />
-                {/* <Eye /> */}
+							<div className="flex items-center">
+								<Input className={inputStyle + !Boolean(user.password) && !isCorrect.password ? "border-red-500 dark:border-red-400" : ""} type={showPassword ? "text" : "password"} placeholder="**********" onChange={(e) => setUser((prev) => ({ ...prev, password: e.target.value }))} required />
+                				{showPassword ? <BsEye className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(false)}/> : <BsEyeSlash className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(true)}/> }
 							</div>
 							{!(user.password.length >= 8 && user.password.length <= 16) && Boolean(user.password) && <p className="text-sm text-red-400">Le mot doit contenir entre 8 et 16 caracteres</p>}
 						</div>
 						{/* Confirm Password */}
 						<div className="space-y-1">
 							<Label>Confirmation mot de passe</Label>
-							<div>
-								<Input className={inputStyle + !Boolean(confirmPassword) && !isCorrect.confirm_password ? "border-red-500 dark:border-red-400" : ""} type="password" placeholder="**********" onChange={(e) => setConfirmPassword(e.target.value)} required />
-                {/* <Eye /> */}
+							<div className="flex items-center">
+								<Input className={inputStyle + !Boolean(confirmPassword) && !isCorrect.confirm_password ? "border-red-500 dark:border-red-400" : ""} type={showPassword ? "text" : "password"} placeholder="**********" onChange={(e) => setConfirmPassword(e.target.value)} required />
+                				{showPassword ? <BsEye className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(false)}/> : <BsEyeSlash className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(true)}/> }
 							</div>
 							{!(confirmPassword === user.password && Boolean(confirmPassword)) && <p className="text-sm text-red-400">Les mot de passe ne sont pas identiques</p>}
 						</div>
