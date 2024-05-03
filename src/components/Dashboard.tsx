@@ -255,7 +255,7 @@ export const Dashboard: React.FC = () => {
                       <DialogTitle>Supprimer cette tache ?</DialogTitle>
                       <DialogDescription>Attention, cette action est irreversible. Voulez-vous vraiment supprimer cette tache ?</DialogDescription>
                     </DialogHeader>
-                    <DialogFooter>
+                    <DialogFooter className="flex md:inline-flex gap-3">
                       <Button type="submit" onClick={() => handleConfirmSelect()} className="w-full" variant={"destructive"}>
                         Supprimer
                       </Button>
@@ -362,7 +362,7 @@ export const Dashboard: React.FC = () => {
                               </Select>
                             </div>
                           </div>
-                          <DialogFooter>
+                          <DialogFooter className="flex md:inline-flex gap-3">
                             <Button type="submit" onClick={() => handleSave()}>
                               Enregitrer
                             </Button>
