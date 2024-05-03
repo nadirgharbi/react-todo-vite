@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Toaster } from "sonner";
 import { getUserData, userLogin } from "../api/users";
-import { NavLink, redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
