@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 
-const baseUrl = "http://localhost:3333/api";
+const baseUrl = "https://apiv1.nadir-gharbi.fr/api/";
 
 export const getTodos = async () => {
 	try {
