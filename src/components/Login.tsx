@@ -3,11 +3,11 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 import { getUserData, userLogin } from "../api/users";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
-import { BsBullseye, BsEye, BsEyeSlash } from "react-icons/bs";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 export const Login: React.FC = () => {
   const [user, setUser] = useState<UserLogin>({ email: "", password: "" });
@@ -74,7 +74,13 @@ export const Login: React.FC = () => {
             <div className="space-y-1">
               <Label>Mot de passe</Label>
               <div className="flex items-center">
-                <Input className={inputStyle + !Boolean(user.password) && !isCorrect.password ? "border-red-500 dark:border-red-400" : ""} type={showPassword ? "text" : "password"} placeholder="**********" onChange={(e) => setUser((prev) => ({ ...prev, password: e.target.value }))} required />
+                <Input
+                  className={inputStyle + !Boolean(user.password) && !isCorrect.password ? "border-red-500 dark:border-red-400" : ""}
+                  type={showPassword ? "text" : "password"}
+                  placeholder="**********"
+                  onChange={(e) => setUser((prev) => ({ ...prev, password: e.target.value }))}
+                  required
+                />
                 {showPassword ? <BsEye className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(false)} /> : <BsEyeSlash className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(true)} />}
               </div>
             </div>

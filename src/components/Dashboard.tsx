@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUserData } from "../api/users";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";

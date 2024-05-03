@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 

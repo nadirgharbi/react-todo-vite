@@ -6,7 +6,7 @@ import { getUserData, userLogout } from "../api/users";
 import { Logo } from "./Logo";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { LogOut } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export const Header: React.FC = () => {
   const { setTheme } = useTheme();
