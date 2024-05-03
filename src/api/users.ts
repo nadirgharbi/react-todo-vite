@@ -9,7 +9,7 @@ export const userLogin = async (data: UserLogin) => {
     const response = await axios.post(`${baseUrl}/login`, data);
     toast.success(response.data);
     Cookies.set("user_token", response.data.token.token);
-    window.location.href = "https://todo.nadir-gharbi.fr/";
+    window.location.href = "/";
   } catch (error) {
     toast.error("Vos identifiants sont incorrect. Veuillez reessayez");
     console.log(error);
@@ -20,7 +20,7 @@ export const userRegister = async (data: UserRegister) => {
   try {
     const response = await axios.post(`${baseUrl}/register`, data);
     Cookies.set("user_token", response.data.token.token);
-    window.location.href = "https://todo.nadir-gharbi.fr/";
+    window.location.href = "/";
   } catch (error: any) {
     toast.error("Une erreur est survenue lors de l'inscription");
     console.log(error);
@@ -36,7 +36,7 @@ export const userLogout = async (data: any) => {
       },
     });
     Cookies.remove("user_token");
-    window.location.href = "https://todo.nadir-gharbi.fr/login";
+    window.location.href = "/login";
   } catch (error) {
     toast.error("Oops, une erreur s'est produite. Veuillez reessayez");
     console.log(error);

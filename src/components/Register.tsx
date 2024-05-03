@@ -61,7 +61,7 @@ export const Register: React.FC = () => {
           <CardTitle className="text-3xl font-bold">
             <Logo />
           </CardTitle>
-          <CardDescription>Inscrivez-vous a votre compte MyTodo</CardDescription>
+          <CardDescription>Enregistrez votre compte MyTodo</CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -100,7 +100,7 @@ export const Register: React.FC = () => {
                 <Input className={inputStyle + !Boolean(confirmPassword) && !isCorrect.confirm_password ? "border-red-500 dark:border-red-400" : ""} type={showPassword ? "text" : "password"} placeholder="**********" onChange={(e) => setConfirmPassword(e.target.value)} required />
                 {showPassword ? <BsEye className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(false)} /> : <BsEyeSlash className="absolute translate-x-80 cursor-pointer w-4 h-4" onClick={() => setShowPassword(true)} />}
               </div>
-              {!(confirmPassword === user.password && Boolean(confirmPassword)) && <p className="text-sm text-red-400">Les mot de passe ne sont pas identiques</p>}
+              {!(confirmPassword === user.password && Boolean(confirmPassword)) && <p className="text-sm text-red-400">Les mots de passe ne sont pas identiques</p>}
             </div>
           </form>
         </CardContent>
@@ -110,7 +110,7 @@ export const Register: React.FC = () => {
             S'inscrire
           </Button>
           <NavLink to={"/login"} className={"text-sm underline underline-offset-2"}>
-            Je ne suis pas inscris
+            Je ne suis pas inscrit
           </NavLink>
         </CardFooter>
       </Card>

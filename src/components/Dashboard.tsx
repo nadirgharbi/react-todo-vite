@@ -198,7 +198,7 @@ export const Dashboard: React.FC = () => {
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username" className="text-right">
-                          Status
+                          Statut
                         </Label>
                         <Select onValueChange={(e) => setNewTodo((prev) => ({ ...prev, completed: parseInt(e) }))} defaultValue={String(newTodo.completed)}>
                           <SelectTrigger className="col-span-3">
@@ -207,7 +207,7 @@ export const Dashboard: React.FC = () => {
                           <SelectContent>
                             <SelectGroup>
                               <SelectItem value={"0"}>En cours</SelectItem>
-                              <SelectItem value={"1"}>Terminée</SelectItem>
+                              <SelectItem value={"1"}>Terminé</SelectItem>
                               <SelectItem value={"2"}>En attente</SelectItem>
                             </SelectGroup>
                           </SelectContent>
@@ -294,14 +294,14 @@ export const Dashboard: React.FC = () => {
                             </TableCell>
                             <TableCell className="truncate w-1/3 md:w-80">{todo.title}</TableCell>
                             <TableCell className="w-1/6 md:w-80">
-                              {/* Status Badge */}
+                              {/* Statut Badge */}
                               {todo.completed === 0 ? (
                                 <Badge variant={"outline"} className="text-nowrap bg-yellow-100 text-yellow-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-300">
                                   En cours
                                 </Badge>
                               ) : todo.completed === 1 ? (
                                 <Badge variant={"outline"} className="text-nowrap bg-green-100 text-green-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-green-300 border border-green-300 dark:border-green-300">
-                                  Terminée
+                                  Terminé
                                 </Badge>
                               ) : (
                                 <Badge variant={"outline"} className="text-nowrap bg-stone-100 text-stone-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-stone-300 border border-stone-300 dark:border-stone-300">
@@ -319,7 +319,7 @@ export const Dashboard: React.FC = () => {
                                   </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                  <DropdownMenuLabel>Action</DropdownMenuLabel>
                                   <DropdownMenuItem className="cursor-pointer" onClick={() => handleEdit(todo)}>
                                     Modifier
                                   </DropdownMenuItem>
@@ -348,7 +348,7 @@ export const Dashboard: React.FC = () => {
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
                                   <Label htmlFor="username" className="text-right">
-                                    Status
+                                    Statut
                                   </Label>
                                   <Select onValueChange={(e) => setEditTodo((prev) => ({ ...prev, completed: parseInt(e) }))} defaultValue={editTodo.completed?.toString()}>
                                     <SelectTrigger className="col-span-3">
@@ -357,7 +357,7 @@ export const Dashboard: React.FC = () => {
                                     <SelectContent>
                                       <SelectGroup>
                                         <SelectItem value={"0"}>En cours</SelectItem>
-                                        <SelectItem value={"1"}>Terminée</SelectItem>
+                                        <SelectItem value={"1"}>Terminé</SelectItem>
                                         <SelectItem value={"2"}>En attente</SelectItem>
                                       </SelectGroup>
                                     </SelectContent>

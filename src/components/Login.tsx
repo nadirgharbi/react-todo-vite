@@ -92,7 +92,7 @@ export const Login: React.FC = () => {
             Se connecter
           </Button>
           <NavLink to={"/register"} className={"text-sm underline underline-offset-2"}>
-            J'ai deja un compte
+            J'ai déjà un compte
           </NavLink>
         </CardFooter>
       </Card>
