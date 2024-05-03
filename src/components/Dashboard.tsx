@@ -169,242 +169,246 @@ export const Dashboard: React.FC = () => {
       <Toaster position={"top-center"} richColors className="z-[999]" />
       <div className="min-h-screen w-full flex flex-col items-center gap-12 md:p-32 bg-lighty dark:bg-darky text-darky dark:text-lighty transition-all">
         {user && <p className="text-xl font-semibold">Bonjour {user.fullName}</p>}
-        <div className="md:mx-auto space-y-10">
-          {/* Head of table */}
-          <div className={`flex flex-col items-center md:flex-row gap-3 ${todos.length > 0 ? "justify-between" : "justify-center"}`}>
-            {/* ADD */}
-            <Dialog open={openAdd}>
-              <DialogOverlay className="bg-black/80" />
-              <DialogTrigger className="">
-                <Button className="flex gap-1" variant="outline" onClick={() => setOpenAdd(true)}>
-                  <HiPlus className="w-4 h-4" strokeWidth={1} />
-                  Ajouter un Todo
-                </Button>
-              </DialogTrigger>
-
-              <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty ">
-                <DialogHeader>
-                  <DialogTitle>Ajouter un nouveau Todo</DialogTitle>
-                  <DialogDescription>Enregistrez un Todo a votre liste pour ne jamais oublier ce que vous avez a faire.</DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-3">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">
-                      Intitulé
-                    </Label>
-                    <Input required id="name" placeholder="Acheter du pain, Appeler Marc ..." className="col-span-3" onChange={(e) => setNewTodo((prev) => ({ ...prev, title: e.target.value, userID: user.id }))} />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="username" className="text-right">
-                      Status
-                    </Label>
-                    <Select onValueChange={(e) => setNewTodo((prev) => ({ ...prev, completed: parseInt(e) }))} defaultValue={String(newTodo.completed)}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value={"0"}>En cours</SelectItem>
-                          <SelectItem value={"1"}>Terminée</SelectItem>
-                          <SelectItem value={"2"}>En attente</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <DialogFooter className="flex md:inline-flex gap-3">
-                  <Button type="submit" onClick={!Boolean(newTodo.title) && openAdd ? () => toast.error("Veuillez indiquez le nom de votre tache") : handleAdd}>
-                    Ajouter
-                  </Button>
-                  <Button type="submit" onClick={() => setOpenAdd(false)} variant={"outline"}>
-                    Annuler
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-
-            {/* SELECT ITEMS PER PAGE */}
-
-            {todos.length > 0 && (
-              <>
-                {/* Select number of items per page */}
-                <Select onValueChange={(e) => setItemsPerPage(Number(e))} defaultValue="10">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder={itemsPerPage} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={"5"}>5</SelectItem>
-                    <SelectItem defaultChecked value={"10"}>
-                      10
-                    </SelectItem>
-                    <SelectItem value={"15"}>15</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                {/* DELETE BUTTON */}
-
-                <Dialog open={openDeleteSelect}>
-                  <DialogOverlay className="bg-black/70 transition-colors" />
-                  <DialogTrigger>
-                    <Button onClick={() => setOpenDeleteSelect(true)} disabled={selectedTodos.length === 0} className={`flex gap-1`} variant={"destructive"}>
-                      <Trash2 className="w-4 h-4" /> Supprimer
+        {todos && (
+          <>
+            <div className="md:mx-auto space-y-10">
+              {/* Head of table */}
+              <div className={`flex flex-col items-center md:flex-row gap-3 ${todos.length > 0 ? "justify-between" : "justify-center"}`}>
+                {/* ADD */}
+                <Dialog open={openAdd}>
+                  <DialogOverlay className="bg-black/80" />
+                  <DialogTrigger className="">
+                    <Button className="flex gap-1" variant="outline" onClick={() => setOpenAdd(true)}>
+                      <HiPlus className="w-4 h-4" strokeWidth={1} />
+                      Ajouter un Todo
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty">
+
+                  <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty ">
                     <DialogHeader>
-                      <DialogTitle>Supprimer cette tache ?</DialogTitle>
-                      <DialogDescription>Attention, cette action est irreversible. Voulez-vous vraiment supprimer cette tache ?</DialogDescription>
+                      <DialogTitle>Ajouter un nouveau Todo</DialogTitle>
+                      <DialogDescription>Enregistrez un Todo a votre liste pour ne jamais oublier ce que vous avez a faire.</DialogDescription>
                     </DialogHeader>
+                    <div className="grid gap-4 py-3">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name" className="text-right">
+                          Intitulé
+                        </Label>
+                        <Input required id="name" placeholder="Acheter du pain, Appeler Marc ..." className="col-span-3" onChange={(e) => setNewTodo((prev) => ({ ...prev, title: e.target.value, userID: user.id }))} />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="username" className="text-right">
+                          Status
+                        </Label>
+                        <Select onValueChange={(e) => setNewTodo((prev) => ({ ...prev, completed: parseInt(e) }))} defaultValue={String(newTodo.completed)}>
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value={"0"}>En cours</SelectItem>
+                              <SelectItem value={"1"}>Terminée</SelectItem>
+                              <SelectItem value={"2"}>En attente</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
                     <DialogFooter className="flex md:inline-flex gap-3">
-                      <Button type="submit" onClick={() => handleConfirmSelect()} className="w-full" variant={"destructive"}>
-                        Supprimer
+                      <Button type="submit" onClick={!Boolean(newTodo.title) && openAdd ? () => toast.error("Veuillez indiquez le nom de votre tache") : handleAdd}>
+                        Ajouter
                       </Button>
-                      <Button type="submit" onClick={() => setOpenDeleteSelect(false)} className="w-full" variant={"outline"}>
+                      <Button type="submit" onClick={() => setOpenAdd(false)} variant={"outline"}>
                         Annuler
                       </Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
-              </>
-            )}
-          </div>
 
-          {todos.length > 0 ? (
-            <div className="flex flex-col gap-16 items-center w-full  ">
-              {/* Table of Todos */}
-              <Table className="w-full last:border-b last:border-b-lighty/20 ">
-                <TableHeader>
-                  <TableRow className="border-b-darky/30 dark:border-b-lighty/30">
-                    <TableHead className="w-1/3 md:w-auto">
-                      <Checkbox checked={selectedTodos.length == todosSliced.length && todosSliced.length > 0} onCheckedChange={handleMasterCheckbox} />
-                    </TableHead>
-                    <TableHead className="w-1/3 md:w-80">Intitulé</TableHead>
-                    <TableHead className="w-1/6 md:w-80">Statut</TableHead>
-                    <TableHead className="w-1/6 text-right">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {todosSliced.map((todo, key) => (
-                    <>
-                      <TableRow key={key} className="border-b-darky/30 dark:border-b-lighty/30">
-                        <TableCell className="font-medium w-1/3 md:w-auto">
-                          <Checkbox checked={selectedTodos.includes(todo.id)} onCheckedChange={() => handleSelectTodo(todo.id)} />
-                        </TableCell>
-                        <TableCell className="truncate w-1/3 md:w-80">{todo.title}</TableCell>
-                        <TableCell className="w-1/6 md:w-80">
-                          {/* Status Badge */}
-                          {todo.completed === 0 ? (
-                            <Badge variant={"outline"} className="text-nowrap bg-yellow-100 text-yellow-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-300">
-                              En cours
-                            </Badge>
-                          ) : todo.completed === 1 ? (
-                            <Badge variant={"outline"} className="text-nowrap bg-green-100 text-green-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-green-300 border border-green-300 dark:border-green-300">
-                              Terminée
-                            </Badge>
-                          ) : (
-                            <Badge variant={"outline"} className="text-nowrap bg-stone-100 text-stone-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-stone-300 border border-stone-300 dark:border-stone-300">
-                              En attente
-                            </Badge>
-                          )}
-                        </TableCell>
-                        <TableCell className="w-1/6 text-right">
-                          {/* Dropdown action */}
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="outline" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem className="cursor-pointer" onClick={() => handleEdit(todo)}>
-                                Modifier
-                              </DropdownMenuItem>
-                              <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-500 dark:focus:bg-red-600/30 " onClick={() => handleDelete(todo)}>
-                                Supprimer
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
+                {/* SELECT ITEMS PER PAGE */}
+
+                {todos.length > 0 && (
+                  <>
+                    {/* Select number of items per page */}
+                    <Select onValueChange={(e) => setItemsPerPage(Number(e))} defaultValue="10">
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder={itemsPerPage} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={"5"}>5</SelectItem>
+                        <SelectItem defaultChecked value={"10"}>
+                          10
+                        </SelectItem>
+                        <SelectItem value={"15"}>15</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    {/* DELETE BUTTON */}
+
+                    <Dialog open={openDeleteSelect}>
+                      <DialogOverlay className="bg-black/70 transition-colors" />
+                      <DialogTrigger>
+                        <Button onClick={() => setOpenDeleteSelect(true)} disabled={selectedTodos.length === 0} className={`flex gap-1`} variant={"destructive"}>
+                          <Trash2 className="w-4 h-4" /> Supprimer
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty">
+                        <DialogHeader>
+                          <DialogTitle>Supprimer cette tache ?</DialogTitle>
+                          <DialogDescription>Attention, cette action est irreversible. Voulez-vous vraiment supprimer cette tache ?</DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className="flex md:inline-flex gap-3">
+                          <Button type="submit" onClick={() => handleConfirmSelect()} className="w-full" variant={"destructive"}>
+                            Supprimer
+                          </Button>
+                          <Button type="submit" onClick={() => setOpenDeleteSelect(false)} className="w-full" variant={"outline"}>
+                            Annuler
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </>
+                )}
+              </div>
+
+              {todos.length > 0 ? (
+                <div className="flex flex-col gap-16 items-center w-full  ">
+                  {/* Table of Todos */}
+                  <Table className="w-full last:border-b last:border-b-lighty/20 ">
+                    <TableHeader>
+                      <TableRow className="border-b-darky/30 dark:border-b-lighty/30">
+                        <TableHead className="w-1/3 md:w-auto">
+                          <Checkbox checked={selectedTodos.length == todosSliced.length && todosSliced.length > 0} onCheckedChange={handleMasterCheckbox} />
+                        </TableHead>
+                        <TableHead className="w-1/3 md:w-80">Intitulé</TableHead>
+                        <TableHead className="w-1/6 md:w-80">Statut</TableHead>
+                        <TableHead className="w-1/6 text-right">Action</TableHead>
                       </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {todosSliced.map((todo, key) => (
+                        <>
+                          <TableRow key={key} className="border-b-darky/30 dark:border-b-lighty/30">
+                            <TableCell className="font-medium w-1/3 md:w-auto">
+                              <Checkbox checked={selectedTodos.includes(todo.id)} onCheckedChange={() => handleSelectTodo(todo.id)} />
+                            </TableCell>
+                            <TableCell className="truncate w-1/3 md:w-80">{todo.title}</TableCell>
+                            <TableCell className="w-1/6 md:w-80">
+                              {/* Status Badge */}
+                              {todo.completed === 0 ? (
+                                <Badge variant={"outline"} className="text-nowrap bg-yellow-100 text-yellow-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-300">
+                                  En cours
+                                </Badge>
+                              ) : todo.completed === 1 ? (
+                                <Badge variant={"outline"} className="text-nowrap bg-green-100 text-green-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-green-300 border border-green-300 dark:border-green-300">
+                                  Terminée
+                                </Badge>
+                              ) : (
+                                <Badge variant={"outline"} className="text-nowrap bg-stone-100 text-stone-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-stone-300 border border-stone-300 dark:border-stone-300">
+                                  En attente
+                                </Badge>
+                              )}
+                            </TableCell>
+                            <TableCell className="w-1/6 text-right">
+                              {/* Dropdown action */}
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="outline" className="h-8 w-8 p-0">
+                                    <span className="sr-only">Open menu</span>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                  <DropdownMenuItem className="cursor-pointer" onClick={() => handleEdit(todo)}>
+                                    Modifier
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-500 dark:focus:bg-red-600/30 " onClick={() => handleDelete(todo)}>
+                                    Supprimer
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </TableCell>
+                          </TableRow>
 
-                      {/* EDIT DIALOG */}
-                      <Dialog open={openEdit}>
-                        <DialogOverlay className="bg-black/40" />
-                        <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty">
-                          <DialogHeader>
-                            <DialogTitle>Ajouter un nouveau Todo</DialogTitle>
-                            <DialogDescription>Enregistrez un Todo a votre liste pour ne jamais oublier ce que vous avez a faire.</DialogDescription>
-                          </DialogHeader>
-                          <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label htmlFor="name" className="text-right">
-                                Intitulé
-                              </Label>
-                              <Input id="name" defaultValue={editTodo.title} onChange={(e) => setEditTodo((prev) => ({ ...prev, title: e.target.value }))} className="col-span-3" />
-                            </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label htmlFor="username" className="text-right">
-                                Status
-                              </Label>
-                              <Select onValueChange={(e) => setEditTodo((prev) => ({ ...prev, completed: parseInt(e) }))} defaultValue={editTodo.completed?.toString()}>
-                                <SelectTrigger className="col-span-3">
-                                  <SelectValue placeholder="Selectionnez un statut" defaultValue={todo.completed} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    <SelectItem value={"0"}>En cours</SelectItem>
-                                    <SelectItem value={"1"}>Terminée</SelectItem>
-                                    <SelectItem value={"2"}>En attente</SelectItem>
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
-                          <DialogFooter className="flex md:inline-flex gap-3">
-                            <Button type="submit" onClick={() => handleSave()}>
-                              Enregitrer
-                            </Button>
-                            <Button type="submit" onClick={() => setOpenEdit(false)} variant={"outline"}>
-                              Annuler
-                            </Button>
-                          </DialogFooter>
-                        </DialogContent>
-                      </Dialog>
+                          {/* EDIT DIALOG */}
+                          <Dialog open={openEdit}>
+                            <DialogOverlay className="bg-black/40" />
+                            <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty">
+                              <DialogHeader>
+                                <DialogTitle>Ajouter un nouveau Todo</DialogTitle>
+                                <DialogDescription>Enregistrez un Todo a votre liste pour ne jamais oublier ce que vous avez a faire.</DialogDescription>
+                              </DialogHeader>
+                              <div className="grid gap-4 py-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                  <Label htmlFor="name" className="text-right">
+                                    Intitulé
+                                  </Label>
+                                  <Input id="name" defaultValue={editTodo.title} onChange={(e) => setEditTodo((prev) => ({ ...prev, title: e.target.value }))} className="col-span-3" />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                  <Label htmlFor="username" className="text-right">
+                                    Status
+                                  </Label>
+                                  <Select onValueChange={(e) => setEditTodo((prev) => ({ ...prev, completed: parseInt(e) }))} defaultValue={editTodo.completed?.toString()}>
+                                    <SelectTrigger className="col-span-3">
+                                      <SelectValue placeholder="Selectionnez un statut" defaultValue={todo.completed} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectGroup>
+                                        <SelectItem value={"0"}>En cours</SelectItem>
+                                        <SelectItem value={"1"}>Terminée</SelectItem>
+                                        <SelectItem value={"2"}>En attente</SelectItem>
+                                      </SelectGroup>
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </div>
+                              <DialogFooter className="flex md:inline-flex gap-3">
+                                <Button type="submit" onClick={() => handleSave()}>
+                                  Enregitrer
+                                </Button>
+                                <Button type="submit" onClick={() => setOpenEdit(false)} variant={"outline"}>
+                                  Annuler
+                                </Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
 
-                      {/* DELETE DIALOG */}
-                      <Dialog open={openDelete}>
-                        <DialogOverlay className="bg-black/10 transition-colors" />
-                        <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty">
-                          <DialogHeader>
-                            <DialogTitle>Supprimer cette tache ?</DialogTitle>
-                            <DialogDescription>Attention, cette action est irreversible. Voulez-vous vraiment supprimer cette tache ?</DialogDescription>
-                          </DialogHeader>
-                          <DialogFooter>
-                            <Button type="submit" onClick={() => handleConfirm()} className="w-full" variant={"destructive"}>
-                              Supprimer
-                            </Button>
-                            <Button type="submit" onClick={() => setOpenDelete(false)} className="w-full" variant={"outline"}>
-                              Annuler
-                            </Button>
-                          </DialogFooter>
-                        </DialogContent>
-                      </Dialog>
-                    </>
-                  ))}
-                </TableBody>
-              </Table>
-              <Pagination className="relative bottom-0 -my-12 " theme={customPagination} currentPage={currentPage} totalPages={Math.ceil(todos.length / itemsPerPage)} onPageChange={onPageChange} showIcons></Pagination>
+                          {/* DELETE DIALOG */}
+                          <Dialog open={openDelete}>
+                            <DialogOverlay className="bg-black/10 transition-colors" />
+                            <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty">
+                              <DialogHeader>
+                                <DialogTitle>Supprimer cette tache ?</DialogTitle>
+                                <DialogDescription>Attention, cette action est irreversible. Voulez-vous vraiment supprimer cette tache ?</DialogDescription>
+                              </DialogHeader>
+                              <DialogFooter>
+                                <Button type="submit" onClick={() => handleConfirm()} className="w-full" variant={"destructive"}>
+                                  Supprimer
+                                </Button>
+                                <Button type="submit" onClick={() => setOpenDelete(false)} className="w-full" variant={"outline"}>
+                                  Annuler
+                                </Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                        </>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  <Pagination className="relative bottom-0 -my-12 " theme={customPagination} currentPage={currentPage} totalPages={Math.ceil(todos.length / itemsPerPage)} onPageChange={onPageChange} showIcons></Pagination>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <img src={notFound} alt={notFound} className="w-24 mx-auto animate-not-found" />
+
+                  <p className="text-center">Aucune tâche trouvées.</p>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="space-y-3">
-              <img src={notFound} alt={notFound} className="w-24 mx-auto animate-not-found" />
-
-              <p className="text-center">Aucune tâche trouvées.</p>
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </>
   );
