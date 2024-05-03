@@ -37,7 +37,7 @@ export const Dashboard: React.FC = () => {
   // Displaying in current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const todosSliced = todos ? todos.sort((a, b) => b.id - a.id).slice(startIndex, endIndex) : [];
+  const todosSliced = todos.sort((a, b) => b.id - a.id).slice(startIndex, endIndex);
 
   const customPagination: CustomFlowbiteTheme["pagination"] = {
     base: "",
@@ -143,7 +143,7 @@ export const Dashboard: React.FC = () => {
         const data = await getUserData();
         setUser(data);
       } catch (error) {
-        window.location.href = "/login";
+        // window.location.href = "/login";
         console.error("Erreur lors de la récupération des informations de l'utilisateur :", error);
       }
     };
@@ -286,7 +286,7 @@ export const Dashboard: React.FC = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {todosSliced.map((todo, key) => (
+                      {todosSliced && todosSliced.map((todo, key) => (
                         <>
                           <TableRow key={key} className="border-b-darky/30 dark:border-b-lighty/30">
                             <TableCell className="font-medium w-1/3 md:w-auto">
