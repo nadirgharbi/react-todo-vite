@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Trash2 } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import { CustomFlowbiteTheme, Pagination } from "flowbite-react";
+import notFound from "@/assets/no-results.png";
 
 export const Dashboard: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -166,15 +167,15 @@ export const Dashboard: React.FC = () => {
   return (
     <>
       <Toaster position={"top-center"} richColors className="z-[999]" />
-      <div className="min-h-screen flex flex-col gap-12 p-32 bg-lighty dark:bg-darky text-darky dark:text-lighty transition-all">
+      <div className="min-h-screen flex flex-col items-center gap-12 p-32 bg-lighty dark:bg-darky text-darky dark:text-lighty transition-all">
         {user && <p className="text-xl font-semibold text-center">Bonjour {user.fullName}</p>}
         <div className="mx-auto space-y-10">
           {/* Head of table */}
-          <div className="flex gap-3 justify-between">
+          <div className={`flex gap-3 ${todos.length > 0 ? "justify-between" : "justify-center"}`}>
             {/* ADD */}
             <Dialog open={openAdd}>
               <DialogOverlay className="bg-black/80" />
-              <DialogTrigger>
+              <DialogTrigger className="">
                 <Button className="flex gap-1" variant="outline" onClick={() => setOpenAdd(true)}>
                   <HiPlus className="w-4 h-4" strokeWidth={1} />
                   Ajouter un Todo
@@ -224,25 +225,24 @@ export const Dashboard: React.FC = () => {
 
             {/* SELECT ITEMS PER PAGE */}
 
-            <div>
-              {/* Select number of items per page */}
-              <Select onValueChange={(e) => setItemsPerPage(Number(e))} defaultValue="10">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder={itemsPerPage} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={"5"}>5</SelectItem>
-                  <SelectItem defaultChecked value={"10"}>
-                    10
-                  </SelectItem>
-                  <SelectItem value={"15"}>15</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* DELETE BUTTON */}
             {todos.length > 0 && (
               <>
+                {/* Select number of items per page */}
+                <Select onValueChange={(e) => setItemsPerPage(Number(e))} defaultValue="10">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder={itemsPerPage} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={"5"}>5</SelectItem>
+                    <SelectItem defaultChecked value={"10"}>
+                      10
+                    </SelectItem>
+                    <SelectItem value={"15"}>15</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* DELETE BUTTON */}
+
                 <Dialog open={openDeleteSelect}>
                   <DialogOverlay className="bg-black/70 transition-colors" />
                   <DialogTrigger>
@@ -398,7 +398,11 @@ export const Dashboard: React.FC = () => {
               <Pagination className="relative bottom-0 -my-12 " theme={customPagination} currentPage={currentPage} totalPages={Math.ceil(todos.length / itemsPerPage)} onPageChange={onPageChange} showIcons></Pagination>
             </div>
           ) : (
-            <p>Aucune tâche trouvés.</p>
+            <div className="space-y-3">
+              <img src={notFound} alt={notFound} className="w-24 mx-auto animate-not-found" />
+
+              <p className="text-center">Aucune tâche trouvées.</p>
+            </div>
           )}
         </div>
       </div>
