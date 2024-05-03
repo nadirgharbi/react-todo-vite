@@ -167,11 +167,11 @@ export const Dashboard: React.FC = () => {
   return (
     <>
       <Toaster position={"top-center"} richColors className="z-[999]" />
-      <div className="min-h-screen flex flex-col items-center gap-12 p-32 bg-lighty dark:bg-darky text-darky dark:text-lighty transition-all">
-        {user && <p className="text-xl font-semibold text-center">Bonjour {user.fullName}</p>}
-        <div className="mx-auto space-y-10">
+      <div className="min-h-screen w-full flex flex-col items-center gap-12 md:p-32 bg-lighty dark:bg-darky text-darky dark:text-lighty transition-all">
+        {user && <p className="text-xl font-semibold">Bonjour {user.fullName}</p>}
+        <div className="md:mx-auto space-y-10">
           {/* Head of table */}
-          <div className={`flex gap-3 ${todos.length > 0 ? "justify-between" : "justify-center"}`}>
+          <div className={`flex flex-col items-center md:flex-row gap-3 ${todos.length > 0 ? "justify-between" : "justify-center"}`}>
             {/* ADD */}
             <Dialog open={openAdd}>
               <DialogOverlay className="bg-black/80" />
@@ -182,12 +182,12 @@ export const Dashboard: React.FC = () => {
                 </Button>
               </DialogTrigger>
 
-              <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty">
+              <DialogContent className="sm:max-w-[425px] text-darky dark:text-lighty ">
                 <DialogHeader>
                   <DialogTitle>Ajouter un nouveau Todo</DialogTitle>
                   <DialogDescription>Enregistrez un Todo a votre liste pour ne jamais oublier ce que vous avez a faire.</DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                <div className="grid gap-4 py-3">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
                       Intitulé
@@ -212,7 +212,7 @@ export const Dashboard: React.FC = () => {
                     </Select>
                   </div>
                 </div>
-                <DialogFooter className="">
+                <DialogFooter className="flex md:inline-flex gap-3">
                   <Button type="submit" onClick={!Boolean(newTodo.title) && openAdd ? () => toast.error("Veuillez indiquez le nom de votre tache") : handleAdd}>
                     Ajouter
                   </Button>
@@ -270,43 +270,44 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {todos.length > 0 ? (
-            <div className="flex flex-col gap-16 items-center">
+            <div className="flex flex-col gap-16 items-center w-full  ">
               {/* Table of Todos */}
-              <Table className="w-full last:border-b last:border-b-lighty/20">
+              <Table className="w-full last:border-b last:border-b-lighty/20 ">
                 <TableHeader>
                   <TableRow className="border-b-darky/30 dark:border-b-lighty/30">
-                    <TableHead className="w-auto">
+                    <TableHead className="w-1/3 md:w-auto">
                       <Checkbox checked={selectedTodos.length == todosSliced.length && todosSliced.length > 0} onCheckedChange={handleMasterCheckbox} />
                     </TableHead>
-                    <TableHead className="w-80">Intitulé</TableHead>
-                    <TableHead className="w-80">Statut</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
+                    <TableHead className="w-1/3 md:w-80">Intitulé</TableHead>
+                    <TableHead className="w-1/6 md:w-80">Statut</TableHead>
+                    <TableHead className="w-1/6 text-right">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {todosSliced.map((todo, key) => (
                     <>
                       <TableRow key={key} className="border-b-darky/30 dark:border-b-lighty/30">
-                        <TableCell className="font-medium">
+                        <TableCell className="font-medium w-1/3 md:w-auto">
                           <Checkbox checked={selectedTodos.includes(todo.id)} onCheckedChange={() => handleSelectTodo(todo.id)} />
                         </TableCell>
-                        <TableCell>{todo.title}</TableCell>
-                        <TableCell>
+                        <TableCell className="truncate w-1/3 md:w-80">{todo.title}</TableCell>
+                        <TableCell className="w-1/6 md:w-80">
+                          {/* Status Badge */}
                           {todo.completed === 0 ? (
-                            <Badge variant={"outline"} className="bg-yellow-100 text-yellow-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-300">
+                            <Badge variant={"outline"} className="text-nowrap bg-yellow-100 text-yellow-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-300">
                               En cours
                             </Badge>
                           ) : todo.completed === 1 ? (
-                            <Badge variant={"outline"} className="bg-green-100 text-green-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-green-300 border border-green-300 dark:border-green-300">
+                            <Badge variant={"outline"} className="text-nowrap bg-green-100 text-green-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-green-300 border border-green-300 dark:border-green-300">
                               Terminée
                             </Badge>
                           ) : (
-                            <Badge variant={"outline"} className="bg-stone-100 text-stone-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-stone-300 border border-stone-300 dark:border-stone-300">
+                            <Badge variant={"outline"} className="text-nowrap bg-stone-100 text-stone-800 text-xs font-medium rounded dark:bg-lighty/5 dark:text-stone-300 border border-stone-300 dark:border-stone-300">
                               En attente
                             </Badge>
                           )}
                         </TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="w-1/6 text-right">
                           {/* Dropdown action */}
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -318,7 +319,6 @@ export const Dashboard: React.FC = () => {
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <DropdownMenuItem className="cursor-pointer" onClick={() => handleEdit(todo)}>
-                                {/* EDIT */}
                                 Modifier
                               </DropdownMenuItem>
                               <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-500 dark:focus:bg-red-600/30 " onClick={() => handleDelete(todo)}>
