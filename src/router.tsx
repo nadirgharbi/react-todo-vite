@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/login",
-				element: isUserAuthentificated() ? <Navigate to={"/"} /> : <Login />,
+				element: isUserAuthentificated() ? <Navigate to={"/dashboard"} /> : <Login />,
 			},
 			{
 				path: "/register",

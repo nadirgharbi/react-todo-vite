@@ -14,7 +14,6 @@ export const getTodos = async () => {
 		});
 		return response.data;
 	} catch (error) {
-		4;
 		console.error(error);
 	}
 };
